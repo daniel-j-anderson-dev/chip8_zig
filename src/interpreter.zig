@@ -1,6 +1,8 @@
+const std = @import("std");
+
 const root = @import("root.zig");
 
-pub const MEMORY_SIZE: usize = 4096;
+pub const MEMORY_SIZE = 4096;
 pub const PROGRAM_START = 0x200;
 pub const DISPLAY_WIDTH = 64;
 pub const DISPLAY_HEIGHT = 32;
@@ -12,8 +14,8 @@ pub const font = struct {
         0x10, 0xF0, 0xF0, 0x90, 0xF0, 0x90, 0x90, 0xE0, 0x90, 0xE0, 0x90, 0xE0, 0xF0, 0x80, 0x80, 0x80,
         0xF0, 0xE0, 0x90, 0x90, 0x90, 0xE0, 0xF0, 0x80, 0xF0, 0x80, 0xF0, 0xF0, 0x80, 0xF0, 0x80, 0x80,
     };
-    pub const START_ADDRESS = 0x50;
-    pub const END_ADDRESS = START_ADDRESS + DATA.len;
+    pub const START = 0x50;
+    pub const END = START + DATA.len;
 };
 pub const KEY_COUNT = 16;
 pub const CALL_STACK_SIZE = 16;
@@ -33,7 +35,7 @@ pub const Interpreter = struct {
     const Self = @This();
 
     pub const INIT = Self{
-        .memory = .{0} ** font.START_ADDRESS ++ font.DATA ++ .{0} ** (MEMORY_SIZE - font.END_ADDRESS),
+        .memory = .{0} ** font.START ++ font.DATA ++ .{0} ** (MEMORY_SIZE - font.END),
         .address_register = 0,
         .variable_register = .{0} ** VARIABLE_REGISTER_COUNT,
         .call_stack = .{0} ** CALL_STACK_SIZE,
@@ -51,8 +53,8 @@ test "constants" {
     _ = DISPLAY_WIDTH;
     _ = DISPLAY_HEIGHT;
     _ = font.DATA;
-    _ = font.START_ADDRESS;
-    _ = font.END_ADDRESS;
+    _ = font.START;
+    _ = font.END;
     _ = KEY_COUNT;
     _ = CALL_STACK_SIZE;
     _ = VARIABLE_REGISTER_COUNT;
