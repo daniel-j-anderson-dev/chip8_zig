@@ -18,3 +18,43 @@ pub const font = struct {
 pub const KEY_COUNT = 16;
 pub const CALL_STACK_SIZE = 16;
 pub const VARIABLE_REGISTER_COUNT = 16;
+
+pub const Interpreter = struct {
+    memory: [MEMORY_SIZE]u8,
+    address_register: u16,
+    variable_register: [VARIABLE_REGISTER_COUNT]u8,
+    call_stack: [CALL_STACK_SIZE]u16,
+    call_stack_index: u4,
+    delay_timer: u8,
+    sound_timer: u8,
+    display: [DISPLAY_HEIGHT][DISPLAY_WIDTH]bool,
+    keypad: [KEY_COUNT]bool,
+
+    const Self = @This();
+
+    pub const INIT = Self{
+        .memory = .{0} ** font.START_ADDRESS ++ font.DATA ++ .{0} ** (MEMORY_SIZE - font.END_ADDRESS),
+        .address_register = 0,
+        .variable_register = .{0} ** VARIABLE_REGISTER_COUNT,
+        .call_stack = .{0} ** CALL_STACK_SIZE,
+        .call_stack_index = 0,
+        .delay_timer = 0,
+        .sound_timer = 0,
+        .display = .{.{false} ** DISPLAY_WIDTH} ** DISPLAY_HEIGHT,
+        .keypad = .{false} ** KEY_COUNT,
+    };
+};
+
+test "constants" {
+    _ = MEMORY_SIZE;
+    _ = PROGRAM_START;
+    _ = DISPLAY_WIDTH;
+    _ = DISPLAY_HEIGHT;
+    _ = font.DATA;
+    _ = font.START_ADDRESS;
+    _ = font.END_ADDRESS;
+    _ = KEY_COUNT;
+    _ = CALL_STACK_SIZE;
+    _ = VARIABLE_REGISTER_COUNT;
+    _ = Interpreter.INIT;
+}
