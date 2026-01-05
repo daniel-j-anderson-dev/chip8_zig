@@ -23,6 +23,7 @@ pub const VARIABLE_REGISTER_COUNT = 16;
 
 pub const Interpreter = struct {
     memory: [MEMORY_SIZE]u8,
+    program_counter: u16,
     address_register: u16,
     variable_register: [VARIABLE_REGISTER_COUNT]u8,
     call_stack: [CALL_STACK_SIZE]u16,
