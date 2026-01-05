@@ -15,3 +15,6 @@ pub const font = struct {
     pub const START_ADDRESS = 0x50;
     pub const END_ADDRESS = START_ADDRESS + DATA.len;
 };
+pub const KEY_COUNT = 16;
+pub const CALL_STACK_SIZE = 16;
+pub const VARIABLE_REGISTER_COUNT = 16;
