@@ -45,6 +45,12 @@ pub const Interpreter = struct {
         .display = .{.{false} ** DISPLAY_WIDTH} ** DISPLAY_HEIGHT,
         .keypad = .{false} ** KEY_COUNT,
     };
+
+    pub fn load_program(self: *Self, program: []const u8) error{ProgramDoesNotFitInMemory}!void {
+        const program_end = PROGRAM_START + program.len;
+        if (program_end > MEMORY_SIZE) return error.ProgramDoesNotFitInMemory;
+        @memmove(self.memory[PROGRAM_START..program_end], program);
+    }
 };
 
 test "constants" {
@@ -59,4 +65,11 @@ test "constants" {
     _ = CALL_STACK_SIZE;
     _ = VARIABLE_REGISTER_COUNT;
     _ = Interpreter.INIT;
+}
+
+test "load_program" {
+    var i = Interpreter.INIT;
+    const program = "hello world!";
+    try i.load_program(program);
+    std.debug.print("\n\n{any}\n{any}\n\n", .{ program, i.memory });
 }
